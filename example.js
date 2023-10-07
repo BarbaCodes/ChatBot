@@ -77,8 +77,19 @@ Antenção, para solicitar a abertura de um novo processo você deve enviar a se
         solicitacao.cpf = msg.body.split('-')[2]
         solicitacao.descricao = msg.body.split('-')[3]
         solicitacao.urgencia = msg.body.split('-')[4]
-
         solicitacao.protocolo = geraProtocolo()
+        
+        // Subindo dados para o servidor express
+        fetch(`http://localhost:3000/${solicitacao.nome}-${solicitacao.cpf}-${solicitacao.descricao}-${solicitacao.urgencia}-${solicitacao.protocolo}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.error('Erro ao buscar dados:', error);
+        });
+
+
 
         msg.reply(`
 ✅Comprovante de solicitação (❗caso alguma informação esteja inválida, seu processo será cancelado):
