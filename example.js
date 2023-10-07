@@ -80,7 +80,7 @@ Antenção, para solicitar a abertura de um novo processo você deve enviar a se
         solicitacao.protocolo = geraProtocolo()
         
         // Subindo dados para o servidor express
-        fetch(`http://localhost:3000/users/${solicitacao.nome}-${solicitacao.cpf}-${solicitacao.descricao}-${solicitacao.urgencia}-${solicitacao.protocolo}`)
+        fetch(`http://localhost:3000/requerimentos/${solicitacao.nome}-${solicitacao.cpf}-${solicitacao.descricao}-${solicitacao.urgencia}-${solicitacao.protocolo}`)
         .then(response => response.json())
         .then(data => {
             console.log(data);
@@ -100,8 +100,35 @@ Antenção, para solicitar a abertura de um novo processo você deve enviar a se
 *Nivel de urgencia:* ${solicitacao.urgencia};
 
 *🖊️Número do protocolo:* ${solicitacao.protocolo} *(é recomendado que anote-o)*.`)
-
     }
+
+    else if(msg.body == '2'){
+        msg.reply("Digite o número de protocolo gerado no ato do enivo do problema.")
+    }
+    
+    else if(msg.body) {
+        let protocolo = msg.body
+        
+        // Puxando dados do servidor express
+        fetch(`http://localhost:3000/requerimentos`)
+        .then(response => response.json())
+        .then(data => {
+            // Percorrendo array de objetos
+            data.forEach(element => {
+                if(element.protocolo == protocolo) {
+                    msg.reply(`*Informações do protocolo: ${element.protocolo}*\n\nNome: ${element.nome}\nCPF: ${element.cpf}\nDescrição do problema: ${element.descricao}\nNível da urgência: ${element.grauUrgencia}\nStatus: ${element.status}`)
+                }
+            })
+        })
+        .catch(error => {
+            console.error('Erro ao buscar dados:', error);
+        });
+    }
+
+    else if(msg.body == '3') {
+        
+    }
+
 
     else if (msg.body.startsWith('!sendto ')) {
         // Direct send a new message to specific id
