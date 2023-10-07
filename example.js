@@ -80,7 +80,7 @@ Antenção, para solicitar a abertura de um novo processo você deve enviar a se
         solicitacao.protocolo = geraProtocolo()
         
         // Subindo dados para o servidor express
-        fetch(`http://localhost:3000/${solicitacao.nome}-${solicitacao.cpf}-${solicitacao.descricao}-${solicitacao.urgencia}-${solicitacao.protocolo}`)
+        fetch(`http://localhost:3000/users/${solicitacao.nome}-${solicitacao.cpf}-${solicitacao.descricao}-${solicitacao.urgencia}-${solicitacao.protocolo}`)
         .then(response => response.json())
         .then(data => {
             console.log(data);
@@ -99,7 +99,7 @@ Antenção, para solicitar a abertura de um novo processo você deve enviar a se
 *Justificativa:* ${solicitacao.descricao};
 *Nivel de urgencia:* ${solicitacao.urgencia};
 
-*Número do protocolo:* ${solicitacao.protocolo} 🖊️*(é recomendado que anote-o)*.`)
+*🖊️Número do protocolo:* ${solicitacao.protocolo} *(é recomendado que anote-o)*.`)
 
     }
 
