@@ -44,9 +44,9 @@ client.on('message', async msg => {
     }
 
 
-    if (msg.body === '!ping reply') {
+    if (msg.body === '!test') {
         // Send a new message as a reply to the current one
-        msg.reply('pong');
+        msg.reply('Hello World, estou funcionando e disponível.');
 
     } else if (msg.body === '!ping') {
         // Send a new message to the same chat
@@ -55,20 +55,20 @@ client.on('message', async msg => {
     } 
 
     else if (msg.body === 'oi') {
-        msg.reply(`Informe o serviço desejado:
+        msg.reply(`📬 Informe o serviço desejado:
 
-Digite 1 para *criar um processo*: reporte algum problema, por exemplo, uma lâmpada do poste da sua rua está queimada;
+📝 Digite 1 para *criar um processo*: reporte algum problema, por exemplo, uma lâmpada do poste da sua rua está queimada;
 
-Digite 2 para *consultar a situação de um processo* existente com o número do protocolo;
+📂 Digite 2 para *consultar a situação de um processo* existente com o número do protocolo;
 
-Digite 3 para checar os *serviços oferecidos* pelo município.`)
+📅 Digite 3 para checar os *serviços oferecidos* pelo município.`)
     }
 
     else if ( msg.body == 1){
         msg.reply(`
 Antenção, para solicitar a abertura de um novo processo você deve enviar a seguinte mensagem, nesta ordem utilizando o caractere*  - *para separar as informações:
 
-*solicito - Seu nome - Seu CPF (apenas números) - Descreva seu problema e adicione as informações - nível de urgencia do seu problema*`)
+*Solicito - Seu nome - Seu CPF (apenas números) - Descreva o problema com todos os detalhes - nível de urgencia do seu problema*`)
     }
 
     
@@ -81,14 +81,15 @@ Antenção, para solicitar a abertura de um novo processo você deve enviar a se
         solicitacao.protocolo = geraProtocolo()
 
         msg.reply(`
-Comprovante de solicitação (caso alguma informação esteja inválida, seu processo será cancelado):
+✅Comprovante de solicitação (❗caso alguma informação esteja inválida, seu processo será cancelado):
 
 *Nome:* ${solicitacao.nome};
 *CPF:* ${solicitacao.cpf};
 *Justificativa:* ${solicitacao.descricao};
 *Nivel de urgencia:* ${solicitacao.urgencia};
 
-*Número do protocolo:* ${solicitacao.protocolo} *(é recomendado que anote-o)*.`)
+*Número do protocolo:* ${solicitacao.protocolo} 🖊️*(é recomendado que anote-o)*.`)
+
     }
 
     else if (msg.body.startsWith('!sendto ')) {
