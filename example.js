@@ -78,8 +78,6 @@ Antenção, para solicitar a abertura de um novo processo você deve enviar a se
             console.error('Erro ao buscar dados:', error);
         });
 
-
-
         msg.reply(`
 ✅Comprovante de solicitação (❗caso alguma informação esteja inválida, seu processo será cancelado):
 
@@ -92,7 +90,7 @@ Antenção, para solicitar a abertura de um novo processo você deve enviar a se
     }
 
     else if(msg.body == '2'){
-        msg.reply("Digite o número de protocolo seguindo o exemplo: protocolo - seu protocolo.")
+        msg.reply("📜Digite o número de protocolo seguindo o exemplo: protocolo - seu protocolo.")
     }
     
     else if(msg.body.startsWith('protocolo -')) {
@@ -149,130 +147,13 @@ Antenção, para solicitar a abertura de um novo processo você deve enviar a se
             console.error('Erro ao buscar dados:', error);
         });
 
-        msg.reply('Para pegar sua ficha de atendimento, envie o comando: ficha - seu nome - seu cpf')
+        msg.reply('📖Para pegar sua ficha de atendimento, envie o comando: ficha - seu nome - seu cpf')
     }
 
     else if(msg.body.startsWith('ficha -')) {
         let nome = msg.body.split('-')[1];
         let cpf = msg.body.split('-')[2];
+
+        // Enviando dados para o servidor express
     }
-});
-
-client.on('message_create', (msg) => {
-    // Fired on all message creations, including your own
-    if (msg.fromMe) {
-        // do stuff here
-    }
-});
-
-client.on('message_revoke_everyone', async (after, before) => {
-    // Fired whenever a message is deleted by anyone (including you)
-    console.log(after); // message after it was deleted.
-    if (before) {
-        console.log(before); // message before it was deleted.
-    }
-});
-
-client.on('message_revoke_me', async (msg) => {
-    // Fired whenever a message is only deleted in your own view.
-    console.log(msg.body); // message before it was deleted.
-});
-
-client.on('message_ack', (msg, ack) => {
-    /*
-        == ACK VALUES ==
-        ACK_ERROR: -1
-        ACK_PENDING: 0
-        ACK_SERVER: 1
-        ACK_DEVICE: 2
-        ACK_READ: 3
-        ACK_PLAYED: 4
-    */
-
-    if (ack == 3) {
-        // The message was read
-    }
-});
-
-client.on('group_join', (notification) => {
-    // User has joined or been added to the group.
-    console.log('join', notification);
-    notification.reply('User joined.');
-});
-
-client.on('group_leave', (notification) => {
-    // User has left or been kicked from the group.
-    console.log('leave', notification);
-    notification.reply('User left.');
-});
-
-client.on('group_update', (notification) => {
-    // Group picture, subject or description has been updated.
-    console.log('update', notification);
-});
-
-client.on('change_state', state => {
-    console.log('CHANGE STATE', state);
-});
-
-// Change to false if you don't want to reject incoming calls
-let rejectCalls = true;
-
-client.on('call', async (call) => {
-    console.log('Call received, rejecting. GOTO Line 261 to disable', call);
-    if (rejectCalls) await call.reject();
-    await client.sendMessage(call.from, `[${call.fromMe ? 'Outgoing' : 'Incoming'}] Phone call from ${call.from}, type ${call.isGroup ? 'group' : ''} ${call.isVideo ? 'video' : 'audio'} call. ${rejectCalls ? 'This call was automatically rejected by the script.' : ''}`);
-});
-
-client.on('disconnected', (reason) => {
-    console.log('Client was logged out', reason);
-});
-
-client.on('contact_changed', async (message, oldId, newId, isContact) => {
-    /** The time the event occurred. */
-    const eventTime = (new Date(message.timestamp * 1000)).toLocaleString();
-
-    console.log(
-        `The contact ${oldId.slice(0, -5)}` +
-        `${!isContact ? ' that participates in group ' +
-            `${(await client.getChatById(message.to ?? message.from)).name} ` : ' '}` +
-        `changed their phone number\nat ${eventTime}.\n` +
-        `Their new phone number is ${newId.slice(0, -5)}.\n`);
-
-    /**
-     * Information about the @param {message}:
-     * 
-     * 1. If a notification was emitted due to a group participant changing their phone number:
-     * @param {message.author} is a participant's id before the change.
-     * @param {message.recipients[0]} is a participant's id after the change (a new one).
-     * 
-     * 1.1 If the contact who changed their number WAS in the current user's contact list at the time of the change:
-     * @param {message.to} is a group chat id the event was emitted in.
-     * @param {message.from} is a current user's id that got an notification message in the group.
-     * Also the @param {message.fromMe} is TRUE.
-     * 
-     * 1.2 Otherwise:
-     * @param {message.from} is a group chat id the event was emitted in.
-     * @param {message.to} is @type {undefined}.
-     * Also @param {message.fromMe} is FALSE.
-     * 
-     * 2. If a notification was emitted due to a contact changing their phone number:
-     * @param {message.templateParams} is an array of two user's ids:
-     * the old (before the change) and a new one, stored in alphabetical order.
-     * @param {message.from} is a current user's id that has a chat with a user,
-     * whos phone number was changed.
-     * @param {message.to} is a user's id (after the change), the current user has a chat with.
-     */
-});
-
-client.on('group_admin_changed', (notification) => {
-    if (notification.type === 'promote') {
-        /** 
-          * Emitted when a current user is promoted to an admin.
-          * {@link notification.author} is a user who performs the action of promoting/demoting the current user.
-          */
-        console.log(`You were promoted by ${notification.author}`);
-    } else if (notification.type === 'demote')
-        /** Emitted when a current user is demoted to a regular user. */
-        console.log(`You were demoted by ${notification.author}`);
 });
