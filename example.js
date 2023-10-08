@@ -1,4 +1,5 @@
 const { Client, Location, List, Buttons, LocalAuth } = require('./index');
+const servicoSelecionado = '';
 
 const client = new Client({
     authStrategy: new LocalAuth(),
@@ -55,9 +56,9 @@ client.on('message', async msg => {
 
     else if (msg.body == '1'){
         msg.reply(`
-Antenção, para solicitar a abertura de um novo processo você deve enviar a seguinte mensagem, nesta ordem utilizando o caractere*  - *para separar as informações:
+ ⚠️Atenção, para solicitar a abertura de um novo processo você deve enviar a seguinte mensagem, nesta ordem utilizando o caractere*  - *para separar as informações:
 
-*Solicito - Seu nome - Seu CPF (apenas números) - Descreva o problema com todos os detalhes - nível de urgencia do seu problema*`)
+*Solicito - Seu nome - Seu CPF (apenas números) - Descreva o problema com todos os detalhes*`)
     }
 
     
@@ -84,13 +85,12 @@ Antenção, para solicitar a abertura de um novo processo você deve enviar a se
 *Nome:* ${solicitacao.nome};
 *CPF:* ${solicitacao.cpf};
 *Justificativa:* ${solicitacao.descricao};
-*Nivel de urgencia:* ${solicitacao.urgencia};
 
 *🖊️Número do protocolo:* ${solicitacao.protocolo} *(é recomendado que anote-o)*.`)
     }
 
     else if(msg.body == '2'){
-        msg.reply("📜Digite o número de protocolo seguindo o exemplo: protocolo - seu protocolo.")
+        msg.reply("📜Digite o número de protocolo seguindo o exemplo: protocolo - número do seu protocolo.")
     }
     
     else if(msg.body.startsWith('protocolo -')) {
@@ -103,7 +103,7 @@ Antenção, para solicitar a abertura de um novo processo você deve enviar a se
             // Percorrendo array de objetos
             data.forEach(element => {
                 if(element.protocolo == protocolo) {
-                    msg.reply(`*Informações do protocolo: ${element.protocolo}*\n\nNome: ${element.nome}\nCPF: ${element.cpf}\nDescrição do problema: ${element.descricao}\nNível da urgência: ${element.grauUrgencia}\nStatus: ${element.status}`)
+                    msg.reply(`*🔖 Informações do protocolo: ${element.protocolo}*\n\nNome: ${element.nome}\nCPF: ${element.cpf}\nDescrição do problema: ${element.descricao}\nNível da urgência: ${element.grauUrgencia}\nStatus: ${element.status}`)
                 }
             })
         })
@@ -113,24 +113,31 @@ Antenção, para solicitar a abertura de um novo processo você deve enviar a se
     }
 
     else if(msg.body == '3') {
-        // Puxando dados do servidor express
-        fetch(`http://localhost:3000/servicos`)
-        .then(response => response.json())
-        .then(data => {
-            let servicos = '';
-            data.forEach(element => {
-                servicos += `\n${element.area}`;
-            })
-            msg.reply(`🔨 Serviços oferecidos:\n ${servicos}\n\n Envie o serviço seguindo o exemplo: serviço - seu serviço`)
-        })
-        .catch(error => {
-            console.error('Erro ao buscar dados:', error);
-        });
+         // Puxando dados do servidor express
+         fetch(`http://localhost:3000/servicos`)
+         .then(response => response.json())
+         .then(data => {
+             services = [];
+             servicos = '';
+ 
+             data.forEach(element => {
+                 if(!services.includes(element.area)) {
+                     services.push(element.area)
+                 }
+             })
+             services.forEach(element => {
+                 servicos += `\n${element}`
+             })
+             msg.reply(`🔨 Serviços oferecidos:\n ${servicos}\n\n Envie o serviço seguindo o exemplo: serviço - seu serviço`)
+         })
+         .catch(error => {
+             console.error('Erro ao buscar dados:', error);
+         });
     }
 
     else if(msg.body.startsWith('serviço -')) {
-        let servico = msg.body.split('-')[1]
-        console.log(servico);
+        let servico = msg.body.split('-')[1];
+        let servicoSelecionado = servico;
         
         // Puxando dados do servidor express
         fetch(`http://localhost:3000/servicos`)
@@ -139,7 +146,7 @@ Antenção, para solicitar a abertura de um novo processo você deve enviar a se
             // Percorrendo array de objetos
             data.forEach(element => {
                 if(element.area == servico.trim()) {
-                    msg.reply(`${element.nomeDoutor}\n${element.ubsNome}\n${element.area}\n${element.horariosAtendimento}\n${element.ficha}`)
+                    msg.reply(`Médico: Dr.${element.nomeDoutor}\n${element.ubsNome}\nÁrea: ${element.area}\nHorário de atendimento: ${element.horariosAtendimento}\nFichas: ${element.ficha}`)
                 }
             })
         })
@@ -147,7 +154,7 @@ Antenção, para solicitar a abertura de um novo processo você deve enviar a se
             console.error('Erro ao buscar dados:', error);
         });
 
-        msg.reply('📖Para pegar sua ficha de atendimento, envie o comando: ficha - seu nome - seu cpf')
+        msg.reply('📖 Para pegar sua ficha de atendimento, envie o comando: ficha - seu nome - seu cpf')
     }
 
     else if(msg.body.startsWith('ficha -')) {
