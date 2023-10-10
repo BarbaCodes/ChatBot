@@ -103,7 +103,7 @@ client.on('message', async msg => {
             // Percorrendo array de objetos
             data.forEach(element => {
                 if(element.protocolo == protocolo) {
-                    msg.reply(`*🔖 Informações do protocolo: ${element.protocolo}*\n\nNome: ${element.nome}\nCPF: ${element.cpf}\nDescrição do problema: ${element.descricao}\nNível da urgência: ${element.grauUrgencia}\nStatus: ${element.status}`)
+                    msg.reply(`💡 Informações do protocolo: ${element.protocolo}\n\nNome: ${element.nome}\nCPF: ${element.cpf}\nDescrição do problema: ${element.descricao}\nNível da urgência: ${element.grauUrgencia}\nStatus: ${element.status}`)
                 }
             })
         })
@@ -146,7 +146,7 @@ client.on('message', async msg => {
             // Percorrendo array de objetos
             data.forEach(element => {
                 if(element.area == servico.trim()) {
-                    msg.reply(`Médico: Dr.${element.nomeDoutor}\n${element.ubsNome}\nÁrea: ${element.area}\nHorário de atendimento: ${element.horariosAtendimento}\nFichas: ${element.ficha}`)
+                    msg.reply(`💊 Médico: Dr.${element.nomeDoutor}\n🏥 UBS: ${element.ubsNome}\n🧬 Área: ${element.area}\n⏰ Horário de atendimento: ${element.horariosAtendimento}\n📑 Fichas: ${element.ficha}`)
                 }
             })
         })
