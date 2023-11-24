@@ -146,7 +146,7 @@ client.on('message', async msg => {
             // Percorrendo array de objetos
             data.forEach(element => {
                 if(element.area == servico.trim()) {
-                    msg.reply(`💊 Médico: Dr.${element.nomeDoutor}\n🏥 UBS: ${element.ubsNome}\n🧬 Área: ${element.area}\n⏰ Horário de atendimento: ${element.horariosAtendimento}\n📑 Fichas: ${element.ficha}`)
+                    msg.reply(`💊 Médico: ${element.nomeDoutor}\n🏥 UBS: ${element.ubsNome}\n🧬 Área: ${element.area}\n⏰ Horário de atendimento: ${element.horariosAtendimento}\n📑 Fichas: ${element.ficha}`)
                 }
             })
         })
